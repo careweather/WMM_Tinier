@@ -25,11 +25,12 @@ void setup() {
   
   float longitude = myDeclination.decimalDegrees(-100, 30, 0);
   float latitude = myDeclination.decimalDegrees(40, 20, 0);
+  float altitude = 500; //km
   uint8_t year = 21;
   uint8_t month = 9;
   uint8_t day = 9;
   Serial.println("The calculated geomagnetic declination is: ");
-  Serial.print(myDeclination.magneticDeclination(latitude, longitude, year, month, day));
+  Serial.print(myDeclination.magneticDeclination(altitude, latitude, longitude, year, month, day));
   Serial.println(" degrees");
 }
 

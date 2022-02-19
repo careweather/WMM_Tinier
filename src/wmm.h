@@ -32,6 +32,7 @@ float wmm_get_date(uint8_t year, uint8_t month, uint8_t date);
 /**
  * Get the magnetic variation at a point on the earth's surface
  *
+ * @param alt Altitude above WGS84 ellipsoid in km
  * @param glat Latitude in degrees and fractional degrees, negative west
  * @param glon Longitude in degrees and fractional degrees, negative west
  * @param time_years The date as returned from wmm_get_date
@@ -39,6 +40,6 @@ float wmm_get_date(uint8_t year, uint8_t month, uint8_t date);
  * @note The altitude used is the ellipsoid at the supplied latitude/longitude, not the earth's surface. This will
  *       give very small errors in some parts of the world comapred to sea level.
  */
-void E0000(float glat, float glon, float time_years, float *dec);
+void E0000(float alt, float glat, float glon, float time_years, float *dec);
 
 #endif

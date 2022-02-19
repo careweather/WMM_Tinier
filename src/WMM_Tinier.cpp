@@ -64,14 +64,15 @@ void WMM_Tinier::printDegMinSecs(float n) {
   Serial.print(abs(secs)); Serial.print(" ");
 }
 
-float WMM_Tinier::magneticDeclination(float Latitude, float Longitude, uint8_t year, uint8_t month, uint8_t day) {
+float WMM_Tinier::magneticDeclination(float Altitude, float Latitude, float Longitude, uint8_t year, uint8_t month, uint8_t day) {
   //wmm_init();
   float wmm_date = wmm_get_date(year, month, day);
   float variation;
-  E0000(Latitude, Longitude, wmm_date, &variation);
+  E0000(Altitude, Latitude, Longitude, wmm_date, &variation);
   spData.declination = variation;
   spData.longitude = Longitude;
   spData.latitude = Latitude;
+  spData.altitude = Altitude;
   spData.date = wmm_date;
   return variation;
 }

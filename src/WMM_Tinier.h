@@ -55,7 +55,7 @@ class WMM_Tinier {
     boolean begin(void);
 	float decimalDegrees(int degrees, int minutes, float seconds);
 	void printDegMinSecs(float n);
-	float magneticDeclination(float Latitude, float Longitude, uint8_t year, uint8_t month, uint8_t day);
+	float magneticDeclination(float Altitude, float Latitude, float Longitude, uint8_t year, uint8_t month, uint8_t day);
 
   // library-accessible "private" interface
   private:
