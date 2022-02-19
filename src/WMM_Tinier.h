@@ -41,6 +41,7 @@ Distributed as-is; no warranty is given.
 // We need to populate this when we calculate data
 struct WMM_TinierData {
   public:
+    float altitude;
     float longitude;
     float latitude;
     float date;
