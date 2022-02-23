@@ -45,7 +45,9 @@ struct WMM_TinierData {
     float longitude;
     float latitude;
     float date;
-	float declination;
+    float br;
+    float btheta;
+    float bphi;
 };
 
 // Sidereal_Planets library description
@@ -53,13 +55,14 @@ class WMM_Tinier {
   // user-accessible "public" interface
   public:
     WMM_TinierData spData;
-    boolean begin(void);
+    bool begin(void);
 	float decimalDegrees(int degrees, int minutes, float seconds);
 	void printDegMinSecs(float n);
-	float magneticDeclination(float Altitude, float Latitude, float Longitude, uint8_t year, uint8_t month, uint8_t day);
+	void magneticCalculation(float Altitude, float Latitude, float Longitude, uint8_t year, uint8_t month, uint8_t day);
 
   // library-accessible "private" interface
   private:
 
 };
 #endif
+

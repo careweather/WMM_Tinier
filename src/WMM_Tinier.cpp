@@ -28,7 +28,7 @@ Distributed as-is; no warranty is given.
 
 // Public Methods //////////////////////////////////////////////////////////
 // Start by doing any setup, and verifying that doubles are supported
-boolean WMM_Tinier::begin(void) {
+bool WMM_Tinier::begin(void) {
   wmm_init();
   return true;
 }
@@ -52,7 +52,7 @@ float WMM_Tinier::decimalDegrees(int degrees, int minutes, float seconds) {
 }
 
 void WMM_Tinier::printDegMinSecs(float n) {
-  boolean sign = (n < 0.);
+  bool sign = (n < 0.);
   if (sign) n = -n;
   long lsec = n * 360000.0;
   long deg = lsec / 360000;
@@ -64,15 +64,17 @@ void WMM_Tinier::printDegMinSecs(float n) {
   Serial.print(abs(secs)); Serial.print(" ");
 }
 
-float WMM_Tinier::magneticDeclination(float Altitude, float Latitude, float Longitude, uint8_t year, uint8_t month, uint8_t day) {
+void WMM_Tinier::magneticCalculation(float Altitude, float Latitude, float Longitude, uint8_t year, uint8_t month, uint8_t day) {
   //wmm_init();
   float wmm_date = wmm_get_date(year, month, day);
-  float variation;
-  E0000(Altitude, Latitude, Longitude, wmm_date, &variation);
-  spData.declination = variation;
+  float br, bt, bp;
+  E0000(Altitude, Latitude, Longitude, wmm_date, &br, &bt, &bp);
+  spData.br = br;
+  spData.btheta = bt;
+  spData.bphi = bp;
   spData.longitude = Longitude;
   spData.latitude = Latitude;
   spData.altitude = Altitude;
   spData.date = wmm_date;
-  return variation;
 }
+
