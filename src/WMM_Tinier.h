@@ -45,9 +45,9 @@ struct WMM_TinierData {
     float longitude;
     float latitude;
     float date;
-    float br;
-    float btheta;
-    float bphi;
+    float bNorth;
+    float bEast;
+    float bDown;
 };
 
 // Sidereal_Planets library description

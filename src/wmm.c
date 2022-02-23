@@ -168,7 +168,7 @@ void wmm_init(void)
 }
 
 // Modified from original WMM_Tinier by referencing github.com/wiedehopf/readsdb/blob/dev/geomag.c
-void E0000(float alt, float glat, float glon, float time_years, float *br, float *bt, float *bp)
+void E0000(float alt, float glat, float glon, float time_years, float *bx, float *by, float *bz)
 {
 	static float tc[13][13];
 	static float sp[13];
@@ -190,6 +190,10 @@ void E0000(float alt, float glat, float glon, float time_years, float *br, float
 	cp[1] = crlon;
 	dp[0][0] = 0.0f;
 	pp[0] = 1.0f;
+
+    float br;
+    float bt;
+    float bp;
 
 	// CONVERT FROM GEODETIC COORDS. TO SPHERICAL COORDS
 	float q = sqrtf(A2_CONST - C2_CONST * srlat2);
@@ -268,9 +272,9 @@ void E0000(float alt, float glat, float glon, float time_years, float *br, float
 				temp2 = tc[m][n] * sp[m] - tc[n][m - 1U] * cp[m];
 			}
 
-			*bt = *bt - ar * temp1 * dp[m][n];
-			*bp += (fm[m] * temp2 * par);
-			*br += (fn[n] * temp1 * par);
+			bt = bt - ar * temp1 * dp[m][n];
+			bp += (fm[m] * temp2 * par);
+			br += (fn[n] * temp1 * par);
 
 			// SPECIAL CASE: NORTH/SOUTH GEOGRAPHIC POLES
 			if (st == 0.0f && m == 1U)
@@ -290,15 +294,15 @@ void E0000(float alt, float glat, float glon, float time_years, float *br, float
     }
 	if (st == 0.0f)
 	{
-		*bp = bpp;
+		bp = bpp;
 	}
 	else
 	{
-		*bp /= st;
+		bp /= st;
 	}
 
     // ROTATE MAGNETIC VECTOR COMPONENTS FROM SPHERICAL TO GEODETIC COORDINATES
-    // float bx = -bt*ca-br*sa;
-    // float by = bp;
-    // float bz = bt*sa-br*ca;
+    *bx = -bt*ca-br*sa;
+    *by = bp;
+    *bz = bt*sa-br*ca;
 }
