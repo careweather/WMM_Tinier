@@ -17,6 +17,7 @@
 #define C2_CONST (A2_CONST - B2_CONST)
 #define C4_CONST (A4_CONST - B4_CONST)
 #define COEFFICIENTS_COUNT		90U
+#define FLATTENING_CONST 298.257223563f
 
 static float c[13][13];
 static float cd[13][13];
@@ -167,7 +168,7 @@ void wmm_init(void)
 }
 
 // Modified from original WMM_Tinier by referencing github.com/wiedehopf/readsdb/blob/dev/geomag.c
-void E0000(float alt, float glat, float glon, float time_years, float *dec)
+void E0000(float alt, float glat, float glon, float time_years, float *br, float *bt, float *bp)
 {
 	static float tc[13][13];
 	static float sp[13];
@@ -208,9 +209,6 @@ void E0000(float alt, float glat, float glon, float time_years, float *dec)
 	}
 	float aor = RE_CONST / r;
 	float ar = aor * aor;
-	float br = 0.0f;
-	float bt = 0.0f;
-	float bp = 0.0f;
 	float bpp = 0.0f;
 
 	for (uint16_t n = 1U; n <= 12U; n++)
@@ -270,9 +268,9 @@ void E0000(float alt, float glat, float glon, float time_years, float *dec)
 				temp2 = tc[m][n] * sp[m] - tc[n][m - 1U] * cp[m];
 			}
 
-			bt = bt - ar * temp1 * dp[m][n];
-			bp += (fm[m] * temp2 * par);
-			br += (fn[n] * temp1 * par);
+			*bt = *bt - ar * temp1 * dp[m][n];
+			*bp += (fm[m] * temp2 * par);
+			*br += (fn[n] * temp1 * par);
 
 			// SPECIAL CASE: NORTH/SOUTH GEOGRAPHIC POLES
 			if (st == 0.0f && m == 1U)
@@ -292,17 +290,15 @@ void E0000(float alt, float glat, float glon, float time_years, float *dec)
     }
 	if (st == 0.0f)
 	{
-		bp = bpp;
+		*bp = bpp;
 	}
 	else
 	{
-		bp /= st;
+		*bp /= st;
 	}
 
-	// ROTATE MAGNETIC VECTOR COMPONENTS FROM SPHERICAL TO GEODETIC COORDINATES
-	float bx = -bt * ca - br * sa;
-	float by = bp;
-
-	// COMPUTE DECLINATION
-	*dec = atan2f(by, bx) / DEGREES_TO_RADIANS;
+    // ROTATE MAGNETIC VECTOR COMPONENTS FROM SPHERICAL TO GEODETIC COORDINATES
+    // float bx = -bt*ca-br*sa;
+    // float by = bp;
+    // float bz = bt*sa-br*ca;
 }

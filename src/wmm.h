@@ -40,6 +40,7 @@ float wmm_get_date(uint8_t year, uint8_t month, uint8_t date);
  * @note The altitude used is the ellipsoid at the supplied latitude/longitude, not the earth's surface. This will
  *       give very small errors in some parts of the world comapred to sea level.
  */
-void E0000(float alt, float glat, float glon, float time_years, float *dec);
+void E0000(float alt, float glat, float glon, float time_years, float *br, float *bt, float *bp);
 
 #endif
+
