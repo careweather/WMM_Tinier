@@ -88,4 +88,5 @@ void WMM_Tinier::magneticCalculation(float Altitude, float Latitude, float Longi
     spData.latitude = Latitude;
     spData.altitude = Altitude;
     spData.date = wmm_date;
+    spData.bMagnitude = spData.bMagnitude = sqrt(bx * bx + by * by + bz * bz); 
 }

@@ -48,6 +48,7 @@ struct WMM_TinierData {
     float bNorth;
     float bEast;
     float bDown;
+    float bMagnitude;
 };
 
 // Sidereal_Planets library description
